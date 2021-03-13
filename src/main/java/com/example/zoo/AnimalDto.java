@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class AnimalDto {
     String name;
     String type;
+    String mood;
 }

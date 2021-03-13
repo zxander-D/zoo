@@ -1,5 +1,6 @@
 package com.example.zoo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,14 @@ public class ZooControllerTest {
     Then it is in my zoo*/
     @Test
     public void addAnimalTest() throws Exception {
-        AnimalDto animalDto = new AnimalDto("fish","swimming");
+        AnimalDto animalDto = new AnimalDto("fish","swimming", "unhappy");
 
         mockMvc.perform(post("/addAnimal")
         .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated())
         .andExpect(jsonPath("name").value("fish"));
 
-        animalDto = new AnimalDto("dog","walking");
+        animalDto = new AnimalDto("dog","walking", "unhappy");
         mockMvc.perform(post("/addAnimal")
                 .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated())
@@ -49,7 +50,7 @@ public class ZooControllerTest {
     Then I see all the animals*/
 
     public void getAnimalTest() throws Exception{
-        AnimalDto animalDto = new AnimalDto("fish","swimming");
+        AnimalDto animalDto = new AnimalDto("fish","swimming","unhappy");
 
         mockMvc.perform(post("/addAnimal")
                 .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
@@ -61,6 +62,29 @@ public class ZooControllerTest {
                         ).andExpect(status().isCreated())
                 .andExpect(jsonPath("[0].name").value("fish"));
 
+    }
+
+    /*Rule: Animal moods are unhappy or happy. They are unhappy by default.
+
+    Given an animal is unhappy
+    When I give it a treat
+    Then the animal is happy
+
+    Given an animal is happy
+    When I give it a treat
+    Then the animal is still happy*/
+    @Test
+    public void feedAnimalTest() throws Exception {
+        AnimalDto animalDto = new AnimalDto("fish","swimming","unhappy");
+
+        mockMvc.perform(post("/addAnimal")
+                .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated());
+
+        //feed animal
+        mockMvc.perform(post("/feedAnimal")
+                .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated()).andExpect(jsonPath("mood").value("happy"));
     }
 
 }

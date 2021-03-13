@@ -25,8 +25,19 @@ public class ZooController {
 
     @GetMapping("/getAnimals")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public List<AnimalDto> getAnimals(){
+    public List<AnimalDto> getAnimals() {
         return zoo;
-
     }
+
+    @PostMapping("/feedAnimal")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public AnimalDto getAnimals(@RequestBody AnimalDto animal) {
+        if(animal.mood.equals("unhappy")){
+            animal.setMood("happy");
+        }else if(animal.mood.equals("happy")){
+            animal.setMood("happy");
+        }
+        return animal;
+    }
+
 }
