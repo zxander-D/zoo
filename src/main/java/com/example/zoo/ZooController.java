@@ -1,10 +1,7 @@
 package com.example.zoo;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,5 +21,12 @@ public class ZooController {
     public AnimalDto addAnimal(@RequestBody AnimalDto animalDto) {
         zoo.add(animalDto);
         return animalDto;
+    }
+
+    @GetMapping("/getAnimals")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public List<AnimalDto> getAnimals(){
+        return zoo;
+
     }
 }

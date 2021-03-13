@@ -49,11 +49,17 @@ public class ZooControllerTest {
     Then I see all the animals*/
 
     public void getAnimalTest() throws Exception{
+        AnimalDto animalDto = new AnimalDto("fish","swimming");
 
-        mockMvc.perform(get("/getAnimals")
-                .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/addAnimal")
+                .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated())
                 .andExpect(jsonPath("name").value("fish"));
+
+
+        mockMvc.perform(get("/getAnimals")
+                        ).andExpect(status().isCreated())
+                .andExpect(jsonPath("[0].name").value("fish"));
 
     }
 
