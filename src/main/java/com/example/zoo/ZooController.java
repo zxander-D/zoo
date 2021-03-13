@@ -32,12 +32,17 @@ public class ZooController {
     @PostMapping("/feedAnimal")
     @ResponseStatus(value = HttpStatus.CREATED)
     public AnimalDto getAnimals(@RequestBody AnimalDto animal) {
-        if(animal.mood.equals("unhappy")){
-            animal.setMood("happy");
-        }else if(animal.mood.equals("happy")){
-            animal.setMood("happy");
+        for (AnimalDto listAnimal : zoo) {
+            if (listAnimal.name.equals(animal.name)) {
+                if (listAnimal.mood.equals("unhappy")) {
+                    listAnimal.setMood("happy");
+                } else if (listAnimal.mood.equals("happy")) {
+                    listAnimal.setMood("happy");
+                }
+                return listAnimal;
+            }
         }
-        return animal;
+        return null;
     }
 
 }

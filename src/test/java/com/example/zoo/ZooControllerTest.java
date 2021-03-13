@@ -85,6 +85,11 @@ public class ZooControllerTest {
         mockMvc.perform(post("/feedAnimal")
                 .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated()).andExpect(jsonPath("mood").value("happy"));
+
+        mockMvc.perform(get("/getAnimals")
+        ).andExpect(status().isCreated())
+                .andExpect(jsonPath("[0].name").value("fish"))
+                .andExpect(jsonPath("[0].mood").value("happy"));
     }
 
 }
