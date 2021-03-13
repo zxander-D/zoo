@@ -1,5 +1,6 @@
 package com.example.zoo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,8 @@ import java.util.List;
 @RestController
 public class ZooController {
 
+    @Autowired
+    ZooService service;
 
     List<AnimalDto> zoo;
     List<Habitat> animalhabitat;
@@ -23,15 +26,17 @@ public class ZooController {
 
     @PostMapping("/addAnimal")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public AnimalDto addAnimal(@RequestBody AnimalDto animalDto) {
-        zoo.add(animalDto);
-        return animalDto;
+    public AnimalEntity addAnimal(@RequestBody AnimalDto animalDto) {
+        return service.createAnimal(animalDto);
+//        zoo.add(animalDto);
+//        return animalDto;
     }
 
     @GetMapping("/getAnimals")
     @ResponseStatus(value = HttpStatus.CREATED)
     public List<AnimalDto> getAnimals() {
-        return zoo;
+        return service.getAll();
+//        return zoo;
     }
 
     @PostMapping("/feedAnimal")
