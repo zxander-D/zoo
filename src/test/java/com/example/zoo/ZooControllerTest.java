@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,4 +42,19 @@ public class ZooControllerTest {
         ).andExpect(status().isCreated())
                 .andExpect(jsonPath("name").value("dog"));
     }
+    @Test
+
+    /*Given I have added animals to my zoo
+    When I check my zoo
+    Then I see all the animals*/
+
+    public void getAnimalTest() throws Exception{
+
+        mockMvc.perform(get("/getAnimals")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated())
+                .andExpect(jsonPath("name").value("fish"));
+
+    }
+
 }
