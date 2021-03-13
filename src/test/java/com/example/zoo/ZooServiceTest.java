@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,24 +34,20 @@ public class ZooServiceTest {
 
     @Test
     public void findAll(){
+        List<AnimalEntity> returnList = new ArrayList<>();
         // S Seat
-        AnimalEntity AnimalEntity = new AnimalEntity("kangaroo","walking","unhappy");
-        when(repository.findAll()).thenReturn(
-                List.of(
-                        AnimalEntity,
-                        new AnimalEntity("elephant","walking","unhappy")
-                )
-        );
+        AnimalEntity animalEntity = new AnimalEntity("kangaroo","walking","unhappy");
+        returnList.add(animalEntity);
+        returnList.add(new AnimalEntity("elephant","walking","unhappy"));
+        when(repository.findAll()).thenReturn(returnList);
 
         // E Exercise
         List<AnimalDto> actual = service.getAll();
 
+        List<AnimalDto> expectedList = new ArrayList<>();
+        expectedList.add(new AnimalDto("kangaroo","walking","unhappy"));
+        expectedList.add(new AnimalDto("elephant","walking","unhappy"));
         // A Assert
-        assertThat(actual).isEqualTo(
-                List.of(
-                        new AnimalDto("kangaroo","walking","unhappy"),
-                        new AnimalDto("elephant","walking","unhappy")
-                )
-        );
+        assertThat(actual).isEqualTo(expectedList);
     }
 }
