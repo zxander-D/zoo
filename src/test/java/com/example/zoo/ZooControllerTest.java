@@ -22,6 +22,10 @@ public class ZooControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /*Rule: Animal should have a name and a type (flying, swimming, walking)
+
+    When I add an animalDto
+    Then it is in my zoo*/
     @Test
     public void addAnimalTest() throws Exception {
         AnimalDto animalDto = new AnimalDto("fish","swimming");
@@ -31,5 +35,10 @@ public class ZooControllerTest {
         ).andExpect(status().isCreated())
         .andExpect(jsonPath("name").value("fish"));
 
+        animalDto = new AnimalDto("dog","walking");
+        mockMvc.perform(post("/addAnimal")
+                .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated())
+                .andExpect(jsonPath("name").value("dog"));
     }
 }
