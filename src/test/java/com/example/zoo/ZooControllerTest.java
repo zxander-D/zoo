@@ -24,7 +24,7 @@ public class ZooControllerTest {
     public void addAnimalTest() throws Exception {
         Animal animalDto = new Animal("fish","swimming");
 
-        mockMvc.perform(post("/zoo/addAnimal")
+        mockMvc.perform(post("/addAnimal")
         .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated());
     }
