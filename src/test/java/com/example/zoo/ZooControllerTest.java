@@ -92,4 +92,21 @@ public class ZooControllerTest {
                 .andExpect(jsonPath("[0].mood").value("happy"));
     }
 
+    @Test
+    /*Given I have an empty <habitat>
+    When I put animal of <type> into a compatible habitat
+    Then the animal is in the habitat*/
+
+    public void placeAnimalHabitatTest() throws Exception{
+        AnimalDto animalDto = new AnimalDto("fish","swimming","unhappy");
+
+        mockMvc.perform(post("/addAnimal")
+                .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated());
+
+        mockMvc.perform(post("/addToHabitat?habitat=ocean")
+                .content(objectMapper.writeValueAsString(animalDto)).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated());
+    }
+
 }

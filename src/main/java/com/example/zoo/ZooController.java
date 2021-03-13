@@ -11,9 +11,14 @@ public class ZooController {
 
 
     List<AnimalDto> zoo;
+    List<Habitat> animalhabitat;
 
     ZooController() {
         zoo = new ArrayList<AnimalDto>();
+        animalhabitat = new ArrayList<>();
+        animalhabitat.add(new Habitat("nest",null));
+        animalhabitat.add(new Habitat("ocean",null));
+        animalhabitat.add(new Habitat("forest",null));
     }
 
     @PostMapping("/addAnimal")
@@ -45,4 +50,9 @@ public class ZooController {
         return null;
     }
 
+    @PostMapping("/addToHabitat")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void addToHabitat(@RequestParam("habitat") String habitatname,@RequestBody AnimalDto animal){
+
+    }
 }
